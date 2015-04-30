@@ -1,0 +1,41 @@
+doctype html
+html(lang=language)
+  head
+    base(href='/')
+    meta(charset=charset)
+    //- for pre-rendering for SEO
+    title(data-ng-bind="title")
+    each httpe in httpEquiv
+      meta(http-equiv=httpe.name, content=httpe.value)
+    each meta in metas
+      meta(name=meta.name, content=meta.value)
+    each hcss in cssHeader
+      link(rel="stylesheet", href=hcss.link, type="text/css", media=hcss.media)
+    each hjs in jsHeader
+      script(src=hjs.link, type="text/javascript", defer=hjs.defer, async=hjs.async)
+  body
+    h1
+      | Your are currently viewing an example of rendering page
+      span(style="color:red")
+        | &nbsp;(Inspect HTML to see generated sources)
+    h2
+      u
+        | You can try links bellow to test rendering with no cache files
+    ul
+      li
+        a(href='/only-data-with-cache')
+          | Only data with cache
+      li
+        a(href='/only-data-with-cache-with-invalid-data-on-no-cache-params')
+          | Only data with cache with invalid data on no cache params
+      li
+        a(href='/only-data-no-cache')
+          | Only data with No cache
+      li
+        a(href='/only-data-no-cache-with-object')
+          | Only data with no cache with object
+    each fcss in cssFooter
+      link(rel="stylesheet" href=fcss.link type="text/css" media=fcss.media)
+    each fjs in jsFooter
+      script(src=fjs.link type="text/javascript")
+ 
