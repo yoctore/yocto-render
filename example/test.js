@@ -24,7 +24,8 @@ render.set('config', {
       meta      : [     
         { name  : 'fragment', value : '!' },
         { name  : 'keywords', value : 'A, B , C D E F' },        
-        { name  : 'description', value : 'Ma description' }        
+        { name  : 'description', value : 'Ma description' },
+        { name  : 'og:title', value : 'My facebook title' },                
       ],
       httpEquiv : [
         { name  : 'X-UA-Compatible', value : 'IE=edge' },
@@ -67,7 +68,7 @@ render.set('debug', true);
  */
 app.set('view engine', 'jade');
 app.set('views', './example/templates');
-
+app.locals.pretty = true;
 /**
  * Assign render to use render from app
  */
