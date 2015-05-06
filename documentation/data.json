@@ -6,13 +6,6 @@
         "url": "http://www.yocto.re"
     },
     "files": {
-        "example/test.js": {
-            "name": "example/test.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
         "src/index.js": {
             "name": "src/index.js",
             "modules": {},
@@ -42,48 +35,6 @@
         }
     },
     "classitems": [
-        {
-            "file": "example/test.js",
-            "line": 7,
-            "description": "Testing logger instance change",
-            "class": "Render"
-        },
-        {
-            "file": "example/test.js",
-            "line": 61,
-            "description": "enable debug for no cache rendering",
-            "class": "Render"
-        },
-        {
-            "file": "example/test.js",
-            "line": 66,
-            "description": "Setting up express config for template",
-            "class": "Render"
-        },
-        {
-            "file": "example/test.js",
-            "line": 72,
-            "description": "Assign render to use render from app",
-            "class": "Render"
-        },
-        {
-            "file": "example/test.js",
-            "line": 77,
-            "description": "Assign / routes on app for test",
-            "class": "Render"
-        },
-        {
-            "file": "example/test.js",
-            "line": 85,
-            "description": "Assign /only-data-no-cache routes on app for test for only data with cache header",
-            "class": "Render"
-        },
-        {
-            "file": "example/test.js",
-            "line": 93,
-            "description": "Assign /only-data-no-cache-with-object routes on app for test for only data with cache header",
-            "class": "Render"
-        },
         {
             "file": "src/index.js",
             "line": 30,
@@ -198,7 +149,7 @@
         },
         {
             "file": "src/index.js",
-            "line": 198,
+            "line": 208,
             "description": "Build data to inject on header page",
             "itemtype": "method",
             "name": "buildHeader",
@@ -210,7 +161,7 @@
         },
         {
             "file": "src/index.js",
-            "line": 286,
+            "line": 296,
             "description": "Main rendering function. Render tempate or only data",
             "params": [
                 {
@@ -243,7 +194,7 @@
         },
         {
             "file": "src/index.js",
-            "line": 345,
+            "line": 355,
             "description": "Default render function. for template rendering",
             "itemtype": "method",
             "name": "render",
@@ -273,7 +224,7 @@
         },
         {
             "file": "src/index.js",
-            "line": 358,
+            "line": 368,
             "description": "Wrapper data to render only data without template",
             "itemtype": "method",
             "name": "renderOnlyData",
@@ -298,7 +249,7 @@
         },
         {
             "file": "src/index.js",
-            "line": 370,
+            "line": 380,
             "description": "Default no cache header function. Set header with no cache params",
             "itemtype": "method",
             "name": "noCacheHeader",
@@ -313,7 +264,7 @@
         },
         {
             "file": "src/index.js",
-            "line": 385,
+            "line": 395,
             "description": "Set a new value on render property given by name",
             "itemtype": "method",
             "name": "set",
@@ -329,11 +280,15 @@
                     "type": "Mixed"
                 }
             ],
+            "return": {
+                "description": "current instance of object",
+                "type": "Object"
+            },
             "class": "Render"
         },
         {
             "file": "src/index.js",
-            "line": 416,
+            "line": 430,
             "description": "exports render",
             "class": "Render"
         }
@@ -348,34 +303,6 @@
             "line": " src/index.js:9"
         },
         {
-            "message": "Missing item type\nTesting logger instance change",
-            "line": " example/test.js:7"
-        },
-        {
-            "message": "Missing item type\nenable debug for no cache rendering",
-            "line": " example/test.js:61"
-        },
-        {
-            "message": "Missing item type\nSetting up express config for template",
-            "line": " example/test.js:66"
-        },
-        {
-            "message": "Missing item type\nAssign render to use render from app",
-            "line": " example/test.js:72"
-        },
-        {
-            "message": "Missing item type\nAssign / routes on app for test",
-            "line": " example/test.js:77"
-        },
-        {
-            "message": "Missing item type\nAssign /only-data-no-cache routes on app for test for only data with cache header",
-            "line": " example/test.js:85"
-        },
-        {
-            "message": "Missing item type\nAssign /only-data-no-cache-with-object routes on app for test for only data with cache header",
-            "line": " example/test.js:93"
-        },
-        {
             "message": "Missing item type\nLogin property. By Default Render use his logger instance.\nBut we can set this value by a already yocto-logger instance",
             "line": " src/index.js:67"
         },
@@ -385,11 +312,11 @@
         },
         {
             "message": "Missing item type\nMain rendering function. Render tempate or only data",
-            "line": " src/index.js:286"
+            "line": " src/index.js:296"
         },
         {
             "message": "Missing item type\nexports render",
-            "line": " src/index.js:416"
+            "line": " src/index.js:430"
         }
     ]
 }

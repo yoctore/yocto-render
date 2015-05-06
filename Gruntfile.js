@@ -44,7 +44,7 @@
          options     : {
            paths   : '.',
            outdir  : 'documentation',
-           exclude : 'Gruntfile.js, example, dist, documentation, node_modules'
+           exclude : 'Gruntfile.js,example,dist,documentation,node_modules,test'
          }
        },
      },
@@ -59,14 +59,30 @@
           src    : 'src/index.js',
           dest   : 'dist/index.js'
        }
-     }
+     },
+     
+     /**
+      * Mocah unit test
+      */
+      mochacli : {
+        options : {
+          'reporter'       : 'spec',
+          'inline-diffs'   : false,
+          'no-exit'        : true,
+          'force'          : false,
+          'check-leaks'    : true,
+          'bail'           : false
+        },
+        all : [ 'test/*.js' ]
+      }
    });
 
    // Load the plugins
    grunt.loadNpmTasks('grunt-contrib-jshint');
    grunt.loadNpmTasks('grunt-contrib-uglify');
    grunt.loadNpmTasks('grunt-contrib-yuidoc');
+   grunt.loadNpmTasks('grunt-mocha-cli');
 
    // register task 
-   grunt.registerTask('default', [ 'jshint', 'yuidoc', 'uglify']);
+   grunt.registerTask('default', [ 'jshint', 'mochacli','yuidoc', 'uglify']);
  };

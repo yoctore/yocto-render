@@ -132,18 +132,25 @@ Render.prototype.updateConfig = function(value) {
     value : joi.string().required().not(null) 
   });
 
-  // setting media rules
-  var mediaRules = joi.object().keys({
+  // setting css media rules
+  var cssMediaRules = joi.object().keys({
     link  : joi.string().required().not(null),
-    media : joi.string().optional().not(null),
+    media : joi.string().required().not(null),
     defer : joi.string().optional().allow('defer').not(null),
     async : joi.string().optional().allow('async').not(null),        
   });
 
+  // setting js media rules
+  var jsMediaRules = joi.object().keys({
+    link  : joi.string().required().not(null),
+    defer : joi.string().optional().allow('defer').not(null),
+    async : joi.string().optional().allow('async').not(null)        
+  });
+
   // setting up media type rules
   var mediaTypeRules = {
-    css : joi.array().optional().min(1).items(mediaRules),
-    js : joi.array().optional().min(1).items(mediaRules)
+    css : joi.array().optional().min(1).items(cssMediaRules),
+    js : joi.array().optional().min(1).items(jsMediaRules)
   };
 
   // setting up assets rules
@@ -155,7 +162,7 @@ Render.prototype.updateConfig = function(value) {
   // define general schema
   var schema = joi.object().keys({
     app : joi.object().optional().min(1).keys({
-      name : joi.string().optional().min(3).not(null)
+      name : joi.string().required().min(3).not(null).empty()
     }),
     
     render : joi.object().optional().min(1).keys({
@@ -186,13 +193,16 @@ Render.prototype.updateConfig = function(value) {
             // log message
             this.logger.warning(message);
           }            
-        }, this);          
+        }, this);
       }
     }
   } else {
     // all is ok so merge it
     _.merge(this.config, value);
   }
+
+  // return status 
+  return _.isEmpty(tests.error) || _.isNull(tests.error);
 };
 
 /**
@@ -378,7 +388,7 @@ Render.prototype.noCacheHeader = function(res) {
   if (!_.isUndefined(res.header) && _.isFunction(res.header)) {
     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
     res.header('Expires', '-1');
-    res.header('Pragma', 'no-cache');     
+    res.header('Pragma', 'no-cache');
   }
 };
 
@@ -388,6 +398,7 @@ Render.prototype.noCacheHeader = function(res) {
  * @method set
  * @param {String} name name of property to set
  * @param {Mixed} value value of property to set
+ * @return {Object} current instance of object
  */
 Render.prototype.set = function(name, value) {
   // is logger change ??
@@ -411,6 +422,9 @@ Render.prototype.set = function(name, value) {
       this.logger.warning('[ Render.set ] - Invalid Logger instance given. Operation aborted !');
     }
   }
+  
+  // return current instance
+  return this;
 };
 
 /**
