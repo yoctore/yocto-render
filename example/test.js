@@ -36,7 +36,7 @@ render.set('config', {
           header : {
               css : [ 
                 { link : 'header.css', media : 'media,print' },
-                { link : 'header2.css' }
+                { link : 'header2.css', media : 'print' }
               ],
               js : [
                  { link : 'header.js'  }, 
@@ -46,8 +46,8 @@ render.set('config', {
             }, 
           footer : {
               css : [
-                { link : 'footer.css', media : 'text/css' },
-                { link : 'footer2.css' }
+                { link : 'footer.css', media : 'print' },
+                { link : 'footer2.css', media : 'screen' }
               ],
               js : [
                  { link : 'footer.js'  }, 

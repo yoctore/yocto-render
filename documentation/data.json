@@ -2,7 +2,7 @@
     "project": {
         "name": "yocto-render",
         "description": "render utility for yocto core stack",
-        "version": "0.1.1",
+        "version": "0.2.0",
         "url": "http://www.yocto.re"
     },
     "files": {
