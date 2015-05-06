@@ -1,7 +1,7 @@
 {
   "name": "yocto-render",
   "description": "render utility for yocto core stack",
-  "version": "0.1.1",
+  "version": "0.2",
   "private": true,
   "scripts": {},
   "homepage": "http://www.yocto.re",
