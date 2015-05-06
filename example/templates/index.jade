@@ -2,13 +2,12 @@ doctype html
 html(lang=language)
   head
     base(href='/')
-    meta(charset=charset)
     //- for pre-rendering for SEO
-    title(data-ng-bind="title")
+    title=title
+    each meta in metas
+      meta(name=meta.name, content=meta.value)    
     each httpe in httpEquiv
       meta(http-equiv=httpe.name, content=httpe.value)
-    each meta in metas
-      meta(name=meta.name, content=meta.value)
     each hcss in cssHeader
       link(rel="stylesheet", href=hcss.link, type="text/css", media=hcss.media)
     each hjs in jsHeader

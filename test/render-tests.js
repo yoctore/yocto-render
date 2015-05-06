@@ -204,8 +204,6 @@ describe('Render()', function() {
       // app
       { app : {  name : 'my app name'  } },
       // render child
-       // charset
-      { render : { charset : 'utf-8' } },
        // title
       { render : { title : 'my title' } },
        // language

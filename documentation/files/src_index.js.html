@@ -119,7 +119,6 @@ function Render() {
       name : [ uuid.v4(), &#x27;new-app&#x27; ].join(&#x27;-&#x27;)
     },
     render : {
-      charset   : &#x27;utf-8&#x27;,
       title     : &#x27;&#x27;,
       language  : &#x27;en&#x27;,
       meta      : [],
@@ -247,7 +246,6 @@ Render.prototype.updateConfig = function(value) {
     }),
     
     render : joi.object().optional().min(1).keys({
-      charset   : joi.string().allow(&#x27;utf-8&#x27;).optional().not(null),
       title     : joi.string().optional().min(3).not(null),      
       language  : joi.string().optional().length(2).not(null),
       meta      : joi.array().optional().min(1).items(metaHttpEquivRules),
@@ -298,7 +296,6 @@ Render.prototype.build = function(type) {
     // build header data to inject on tempate
     var data = {
       appname   : this.config.app.name,
-      charset   : (this.config.render.charset || this.defaultConfig.render.charset),
       title     : this.config.render.title,
       language  : (this.config.render.language || this.defaultConfig.render.language),     
     };
@@ -361,14 +358,8 @@ Render.prototype.build = function(type) {
     obj = utils.renameKey(obj, &#x27;css&#x27;, [ &#x27;css&#x27;, _.capitalize(type) ].join(&#x27;&#x27;));
     obj = utils.renameKey(obj, &#x27;js&#x27;, [ &#x27;js&#x27;, _.capitalize(type) ].join(&#x27;&#x27;));
   
-    // if header process 
-    if (type == &#x27;header&#x27;) {
-      // extending object with data
-      _.extend(data, obj);    
-    }
-  
-    // returning object
-    return obj;
+    // returning
+    return _.extend(data, obj);
   } else {
       this.logger.warning([ &#x27;[ Render.build ] - Cannot build data for current type. given [&#x27;, type, &#x27;] and waiting header OR footer value&#x27;].join(&#x27;&#x27;));
   }

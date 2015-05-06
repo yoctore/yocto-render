@@ -38,7 +38,6 @@ function Render() {
       name : [ uuid.v4(), 'new-app' ].join('-')
     },
     render : {
-      charset   : 'utf-8',
       title     : '',
       language  : 'en',
       meta      : [],
@@ -166,7 +165,6 @@ Render.prototype.updateConfig = function(value) {
     }),
     
     render : joi.object().optional().min(1).keys({
-      charset   : joi.string().allow('utf-8').optional().not(null),
       title     : joi.string().optional().min(3).not(null),      
       language  : joi.string().optional().length(2).not(null),
       meta      : joi.array().optional().min(1).items(metaHttpEquivRules),
@@ -217,7 +215,6 @@ Render.prototype.build = function(type) {
     // build header data to inject on tempate
     var data = {
       appname   : this.config.app.name,
-      charset   : (this.config.render.charset || this.defaultConfig.render.charset),
       title     : this.config.render.title,
       language  : (this.config.render.language || this.defaultConfig.render.language),     
     };
@@ -280,14 +277,8 @@ Render.prototype.build = function(type) {
     obj = utils.renameKey(obj, 'css', [ 'css', _.capitalize(type) ].join(''));
     obj = utils.renameKey(obj, 'js', [ 'js', _.capitalize(type) ].join(''));
   
-    // if header process 
-    if (type == 'header') {
-      // extending object with data
-      _.extend(data, obj);    
-    }
-  
-    // returning object
-    return obj;
+    // returning
+    return _.extend(data, obj);
   } else {
       this.logger.warning([ '[ Render.build ] - Cannot build data for current type. given [', type, '] and waiting header OR footer value'].join(''));
   }

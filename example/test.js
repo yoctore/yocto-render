@@ -18,10 +18,10 @@ render.set('config', {
       name : "test"
     },
     render : {
-      charset   : 'utf-8',
       title     : 'Mon titre',
       language  : 'en',
-      meta      : [     
+      meta      : [
+        { name  : 'charset', value : 'utf-8'},             
         { name  : 'fragment', value : '!' },
         { name  : 'keywords', value : 'A, B , C D E F' },        
         { name  : 'description', value : 'Ma description' },
