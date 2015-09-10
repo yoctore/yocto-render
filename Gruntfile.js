@@ -62,7 +62,7 @@
      },
      
      /**
-      * Mocah unit test
+      * Mocha unit test
       */
       mochacli : {
         options : {
@@ -74,6 +74,34 @@
           'bail'           : false
         },
         all : [ 'test/*.js' ]
+      },
+      
+      /**
+       * Check Development package task
+       */
+      devUpdate : {        
+        report : {
+          options : {
+            updateType : 'report', //just report outdated packages 
+            reportUpdated : false, //don't report up-to-date packages 
+            semver : true, //stay within semver when updating 
+            packages : {
+                devDependencies : true, //only check for devDependencies 
+                dependencies : true
+            }
+          }            
+        },
+        prompt : {
+          options : {
+            updateType : 'prompt', //just report outdated packages 
+            reportUpdated : false, //don't report up-to-date packages 
+            semver : true, //stay within semver when updating 
+            packages : {
+                devDependencies : true, //only check for devDependencies 
+                dependencies : true
+            }
+          }            
+        }           
       }
    });
 
@@ -82,7 +110,15 @@
    grunt.loadNpmTasks('grunt-contrib-uglify');
    grunt.loadNpmTasks('grunt-contrib-yuidoc');
    grunt.loadNpmTasks('grunt-mocha-cli');
+   grunt.loadNpmTasks('grunt-dev-update');
 
-   // register task 
+   // register task
    grunt.registerTask('default', [ 'jshint', 'mochacli','yuidoc', 'uglify']);
+   grunt.registerTask('update-check', 'devUpdate:report');   
+   grunt.registerTask('update-process', 'devUpdate:prompt'); 
+
+   grunt.registerTask('norme', 'jshint');   
+   grunt.registerTask('tests', 'mochacli');   
+   grunt.registerTask('build', [ 'jshint', 'yuidoc', 'uglify' ]);
+   
  };
