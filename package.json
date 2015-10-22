@@ -1,7 +1,7 @@
 {
   "name": "yocto-render",
   "description": "A render utility tool for yocto core stack",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "scripts": {},
   "author": {
     "name": "ROBERT Mathieu",
