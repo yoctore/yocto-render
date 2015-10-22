@@ -10,7 +10,7 @@ It provide a tool that build automatically your base template from a object conf
 
 ## Motivation
 
-For this module we don't have a specific motivation, we just need an utility tools for our base render process for yocto-core-stack package.
+For this module we don't have a specific motivation, we just need an utility tools for our base render process for yocto-core-stack package  **( NOT PUBLISHED YET )**
 
 ## Config object
 
