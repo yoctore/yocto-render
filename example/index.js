@@ -1,19 +1,11 @@
 var express = require('express');
 var app     = express();
-var render  = require('../src/index.js');
-var _       = require('lodash');
 var logger    = require('yocto-logger');
-
-/**
- * Testing logger instance change
- */
-render.set('logger', { constructor : undefined });
-render.set('logger', { } );
-render.set('logger', logger);
-// test null value
+var render  = require('../src/index.js')();
+var _       = require('lodash');
 
 
-render.set('config', {
+render.updateConfig({
     app : {
       name : "test"
     },
@@ -21,11 +13,11 @@ render.set('config', {
       title     : 'Mon titre',
       language  : 'en',
       meta      : [
-        { name  : 'charset', value : 'utf-8'},             
+        { name  : 'charset', value : 'utf-8'},
         { name  : 'fragment', value : '!' },
-        { name  : 'keywords', value : 'A, B , C D E F' },        
+        { name  : 'keywords', value : 'A, B , C D E F' },
         { name  : 'description', value : 'Ma description' },
-        { name  : 'og:title', value : 'My facebook title' },                
+        { name  : 'og:title', value : 'My facebook title' },
       ],
       httpEquiv : [
         { name  : 'X-UA-Compatible', value : 'IE=edge' },
@@ -52,7 +44,7 @@ render.set('config', {
               js : [
                  { link : 'footer.js'  }, 
                  { link : 'footer2.js', defer : 'defer' },
-                 { link : 'footer3.js', async : 'async' }                
+                 { link : 'footer3.js', async : 'async' }
               ]
             }
         }
@@ -61,7 +53,8 @@ render.set('config', {
 /**
  * enable debug for no cache rendering
  */
-render.set('debug', true);
+
+render.debug = true;
 
 /**
  * Setting up express config for template
