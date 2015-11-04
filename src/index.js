@@ -20,10 +20,10 @@ function Render (logger) {
    * @type Object
    */
   this.defaultConfig = {
-    app     : {
+    app       : {
       name : [ uuid.v4(), 'new-app' ].join('-')
     },
-    render  : {
+    property  : {
       title     : '',
       language  : 'en',
       meta      : [],
@@ -160,20 +160,48 @@ Render.prototype.updateConfig = function (value) {
     footer : joi.object().optional().min(1).keys(mediaTypeRules)
   };
 
-  // define general schema
-  var schema = joi.object().keys({
-    app     : joi.object().optional().min(1).keys({
+  // facebook twitter keys
+  var facebookTwitterKeys = {
+    property  : joi.string().required().empty(),
+    content   : joi.string().required().empty()
+  };
+
+  // google keys
+  var googleKeys = {
+    rel   : joi.string().required().empty(),
+    href  : joi.string().required().empty()
+  };
+
+  // setting up social keys
+  var socialRules = {
+    facebook  : joi.array().optional().items(facebookTwitterKeys).default([]),
+    twitter   : joi.array().optional().items(facebookTwitterKeys).default([]),
+    google    : joi.array().optional().items(googleKeys).default([])
+  };
+
+  // default statement
+  var schema = joi.object().required().keys({
+    app       : joi.object().optional().min(1).keys({
       name : joi.string().required().min(3).not(null).empty()
     }),
 
-    render  : joi.object().optional().min(1).keys({
-      title     : joi.string().optional().min(3).not(null),
-      language  : joi.string().optional().length(2).not(null),
-      meta      : joi.array().optional().min(1).items(metaHttpEquivRules),
-      httpEquiv : joi.array().optional().min(1).items(metaHttpEquivRules),
-      assets    : joi.object().optional().min(1).keys(assetsRules)
+    // property list
+    property  : joi.object().optional().min(1).keys({
+      title       : joi.string().optional().min(3).not(null),
+      language    : joi.string().optional().length(2).not(null),
+      meta        : joi.array().optional().min(1).items(metaHttpEquivRules),
+      httpEquiv   : joi.array().optional().min(1).items(metaHttpEquivRules),
+      assets      : joi.object().optional().min(1).keys(assetsRules),
+      mobileIcons : joi.array().optional().min(1).items(
+        joi.object().required().keys({
+          rel   : joi.string().required().empty(),
+          sizes : joi.string().required().empty(),
+          href  : joi.string().required().empty()
+        })
+      ),
+      social      : joi.object().optional().min(1).keys(socialRules)
     })
-  });
+  }).allow([ 'app', 'property' ]);
 
   // validate rules
   var tests = joi.validate(value, schema, { abortEarly : false });
@@ -198,7 +226,7 @@ Render.prototype.updateConfig = function (value) {
     }
   } else {
     // all is ok so merge it
-    _.merge(this.config, value);
+    _.merge(this.config, tests.value);
   }
 
   // return status
@@ -217,8 +245,8 @@ Render.prototype.build = function (type) {
     // build header data to inject on tempate
     var data = {
       appname   : this.config.app.name,
-      title     : this.config.render.title,
-      language  : (this.config.render.language || this.defaultConfig.render.language),
+      title     : this.config.property.title,
+      language  : (this.config.property.language || this.defaultConfig.property.language),
     };
 
     // define common items to build
@@ -229,14 +257,14 @@ Render.prototype.build = function (type) {
 
     // define simple rules for cheking
     var rules = [ {
-      reference   : this.config.render.assets[type],
+      reference   : this.config.property.assets[type],
       destination : obj.css,
       keyLabel    : 'link',
       valueLabel  : 'media',
       type        : 'assets',
       stype       : 'css'
     }, {
-      reference   : this.config.render.assets[type],
+      reference   : this.config.property.assets[type],
       destination : obj.js,
       keyLabel    : 'link',
       type        : 'assets',
@@ -245,16 +273,26 @@ Render.prototype.build = function (type) {
 
     // extend obj if is header type
     if (type === 'header') {
-      _.extend(obj, { metas : [], httpEquiv : [] });
+      // default social obj
+      var socialObj = this.config.property.social || {};
+      // extend obj
+      _.extend(obj, { metas         : [],
+                      httpEquiv     : [],
+                      mobileIcons   : this.config.property.mobileIcones || [],
+                      facebook      : socialObj.facebook || [],
+                      twitter       : socialObj.twitter || [],
+                      google        : socialObj.google || []
+                    }
+              );
 
       // define rule for header
       var r = [ {
-        reference   : this.config.render.meta,
+        reference   : this.config.property.meta,
         destination : obj.metas,
         keyLabel    : 'name',
         valueLabel  : 'value'
       }, {
-        reference   : this.config.render.httpEquiv,
+        reference   : this.config.property.httpEquiv,
         destination : obj.httpEquiv,
         keyLabel    : 'name',
         valueLabel  : 'value'
@@ -265,7 +303,6 @@ Render.prototype.build = function (type) {
       // proess unique level of data in array
       rules = _.flatten(rules);
     }
-
     // process rules
     _.each(rules, function (rule) {
       // check rule and is assets ?
@@ -284,7 +321,7 @@ Render.prototype.build = function (type) {
     obj = utils.obj.renameKey(obj, 'css', [ 'css', _.capitalize(type) ].join(''));
     obj = utils.obj.renameKey(obj, 'js', [ 'js', _.capitalize(type) ].join(''));
 
-    // statement
+    // default statement
     return _.extend(data, obj);
   } else {
     this.logger.warning([ '[ Render.build ] - Cannot build data for current type. given [',

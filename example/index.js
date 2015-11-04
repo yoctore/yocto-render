@@ -9,7 +9,7 @@ render.updateConfig({
     app : {
       name : "test"
     },
-    render : {
+    property : {
       title     : 'Mon titre',
       language  : 'en',
       meta      : [
@@ -23,31 +23,30 @@ render.updateConfig({
         { name  : 'X-UA-Compatible', value : 'IE=edge' },
         { name  : 'Content-type', value : 'text/html; charset=UTF-8' }
       ],
-      assets :
-        { 
-          header : {
-              css : [ 
-                { link : 'header.css', media : 'media,print' },
-                { link : 'header2.css', media : 'print' }
-              ],
-              js : [
-                 { link : 'header.js'  }, 
-                 { link : 'header2.js', defer : 'defer' },
-                 { link : 'header3.js', async : 'async' }
-              ]
-            }, 
-          footer : {
-              css : [
-                { link : 'footer.css', media : 'print' },
-                { link : 'footer2.css', media : 'screen' }
-              ],
-              js : [
-                 { link : 'footer.js'  }, 
-                 { link : 'footer2.js', defer : 'defer' },
-                 { link : 'footer3.js', async : 'async' }
-              ]
-            }
+      assets : { 
+        header : {
+          css : [ 
+            { link : 'header.css', media : 'media,print' },
+            { link : 'header2.css', media : 'print' }
+          ],
+          js : [
+             { link : 'header.js'  }, 
+             { link : 'header2.js', defer : 'defer' },
+             { link : 'header3.js', async : 'async' }
+          ]
+        }, 
+        footer : {
+          css : [
+            { link : 'footer.css', media : 'print' },
+            { link : 'footer2.css', media : 'screen' }
+          ],
+          js : [
+             { link : 'footer.js'  }, 
+             { link : 'footer2.js', defer : 'defer' },
+             { link : 'footer3.js', async : 'async' }
+          ]
         }
+      }
     }
   });
 /**

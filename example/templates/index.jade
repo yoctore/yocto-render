@@ -12,6 +12,14 @@ html(lang=language)
       link(rel="stylesheet", href=hcss.link, type="text/css", media=hcss.media)
     each hjs in jsHeader
       script(src=hjs.link, type="text/javascript", defer=hjs.defer, async=hjs.async)
+    each mobile in mobileIcons
+      link(rel=mobile.rel, sizes=mobile.sizes, href=mobile.href)
+    each f in facebook
+      meta(property=f.property, content=f.content)
+    each t in twitter
+      meta(property=t.property, content=t.content)
+    each g in google
+      link(rel=g.rel, href=g.href)
   body
     h1
       | Your are currently viewing an example of rendering page
