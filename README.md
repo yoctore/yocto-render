@@ -21,7 +21,7 @@ You must define a config object like this to let's yocto-render build your base 
   app : {
     name : "YOUR_APP_NAME"
   },
-  render : {
+  property : {
     title     : 'YOUR_TITLE_HERE',
     language  : 'YOUR_DEFAULT_LANG_HERE',
     meta      : [
@@ -71,6 +71,27 @@ You must define a config object like this to let's yocto-render build your base 
             ]
           }
       }
+  },
+  mobileIcons : [
+    {
+      rel : "a",
+      sizes : "fsdfsd",
+      href : "fsdfds"
+    }
+  ],
+  social : {
+    facebook : [
+      {
+        property : "fdsfsd",
+        content  : "fsdfds"
+      }
+    ],
+    google  : [
+      {
+        rel : "fdsfsd",
+        href  : "fsdfds"
+      }
+    ]
   }
 }
 ```
