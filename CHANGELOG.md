@@ -1,3 +1,7 @@
+## 1.0.2 (2015-11-03)
+
+- Update dep package version and jump to joi 7.0.0
+
 ## 1.0.0
 
 - Add core process
