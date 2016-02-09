@@ -1,7 +1,7 @@
 {
   "name": "yocto-render",
   "description": "A renderer utility tool for yocto core stack",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "scripts": {},
   "author": {
     "name": "ROBERT Mathieu",
@@ -23,10 +23,10 @@
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/yocto-node-modules/yocto-render.git"
+    "url": "https://github.com/yoctore/yocto-render.git"
   },
   "bugs": {
-    "url": "https://gitlab.com/yocto-node-modules/yocto-render/issues"
+    "url": "https://github.com/yoctore/yocto-render/issues"
   },
   "license": "Apache-2.0",
   "engines": {

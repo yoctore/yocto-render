@@ -1,3 +1,5 @@
+![alt text](https://david-dm.org/yoctore/yocto-render.svg "Dependencies Status")
+
 ## Overview
 
 This module is a part of yocto node modules for NodeJS.
@@ -10,7 +12,7 @@ It provide a tool that build automatically your base template from a object conf
 
 ## Motivation
 
-For this module we don't have a specific motivation, we just need an utility tools for our base render process for yocto-core-stack package  **( NOT PUBLISHED YET )**
+For this module we don't have a specific motivation, we just need an utility tools for our base render process for yocto-core-stack package
 
 ## Config object
 
@@ -163,4 +165,4 @@ By Default this module include [yocto-logger](https://www.npmjs.com/package/yoct
 
 ## Changelog
 
-All history is [here](https://gitlab.com/yocto-node-modules/yocto-render/blob/master/CHANGELOG.md)
+All history is [here](https://github.com/yoctore/yocto-render/blob/master/CHANGELOG.md)
