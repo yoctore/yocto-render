@@ -1,3 +1,8 @@
+## 1.0.6 (2016-03-31)
+
+- Upgrade node minimal version
+
+
 ## 1.0.3 (2015-11-03)
 
 - Add new item on default render

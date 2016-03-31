@@ -1,4 +1,11 @@
+[![NPM](https://nodei.co/npm/yocto-render.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/yocto-render/)
+
 ![alt text](https://david-dm.org/yoctore/yocto-render.svg "Dependencies Status")
+[![Code Climate](https://codeclimate.com/github/yoctore/yocto-render/badges/gpa.svg)](https://codeclimate.com/github/yoctore/yocto-render)
+[![Test Coverage](https://codeclimate.com/github/yoctore/yocto-render/badges/coverage.svg)](https://codeclimate.com/github/yoctore/yocto-render/coverage)
+[![Issue Count](https://codeclimate.com/github/yoctore/yocto-render/badges/issue_count.svg)](https://codeclimate.com/github/yoctore/yocto-render)
+[![Build Status](https://travis-ci.org/yoctore/yocto-render.svg?branch=master)](https://travis-ci.org/yoctore/yocto-render)
+
 
 ## Overview
 
