@@ -26,7 +26,7 @@ render.updateConfig({
       assets : { 
         header : {
           css : [ 
-            { link : 'header.css', media : 'media,print' },
+            { link : 'header.css', media : 'media,print', fingerprint : { dateFormat : 'YY/MM/DD', enable : true, qs : 'g', limit : 15, key : "1234" } },
             { link : 'header2.css', media : 'print' }
           ],
           js : [

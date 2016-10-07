@@ -5,6 +5,8 @@ var uuid      = require('uuid');
 var logger    = require('yocto-logger');
 var joi       = require('joi');
 var utils     = require('yocto-utils');
+var cryptoJs  = require('crypto-js');
+var moment    = require('moment');
 
 /**
  * A render manager utility tool.
@@ -33,6 +35,14 @@ function Render (logger) {
   };
 
   /**
+   * Generate internal uuid to use on default value
+   *
+   * @property uuid
+   * @type String
+   */
+  this.uuid = uuid.v4();
+
+  /**
    * Config object. a clone value of defaultConfig or customized by user
    *
    * @property config
@@ -57,6 +67,24 @@ function Render (logger) {
 }
 
 /**
+ * Build fingerprint from givent data
+ *
+ * @param {String} key to use for encryption
+ * @param {String} dateFormat default format to use for change delay
+ * @param {Number} truncate if is set builded key will truncate with given limit
+ * @return {String} builded fingerprint
+ */
+Render.prototype.buildFingerprint = function (key, dateFormat, truncate) {
+  // default fingerpring
+  var fingerprint = cryptoJs.HmacSHA256(moment().format(dateFormat), key).toString();
+  // normalize truncate value
+  truncate = truncate > _.size(fingerprint) || truncate <= 0  ? _.size(fingerprint) : truncate;
+  // default statement
+  return _.isNumber(truncate) ?
+    _.truncate(fingerprint, { length : truncate, omission : '' }) : fingerprint;
+};
+
+/**
  * Build assets (js, css) for rendering
  *
  * @param {Object} reference reference object to use
@@ -72,7 +100,9 @@ Render.prototype.buildAssetKeyValue = function (reference, destination,
   if (_.has(reference, stype) && _.isArray(reference[stype]) && !_.isEmpty(reference[stype])) {
 
     // parse all reference
-    _.each(reference[stype], function (st) {
+    _.each(reference[stype], function (stt) {
+      // clone object
+      var st = _.clone(stt);
       // check
       var check = (!_.isUndefined(valueLabel) ?
                   (_.has(st, keyLabel) && _.has(st, valueLabel) && !_.isEmpty(st[keyLabel]) &&
@@ -82,10 +112,23 @@ Render.prototype.buildAssetKeyValue = function (reference, destination,
       // end check before add
       if (check && _.isArray(destination) && !_.isUndefined(destination) &&
           !_.isNull(destination)) {
+
+        // need to build a fingerprint here ?
+        if (_.has(st, 'fingerprint.enable') && st.fingerprint.enable) {
+          // build properly link with fingerprint value
+          st.link = [ st.link, '?', st.fingerprint.qs, '=',
+            this.buildFingerprint(st.fingerprint.key,
+              st.fingerprint.dateFormat,
+              st.fingerprint.limit
+            )
+          ].join('');
+        }
+        // remove non needed key
+        delete st.fingerprint;
         // push if all is okay
         destination.push(st);
       }
-    });
+    }.bind(this));
 
     // valid statement
     return true;
@@ -135,17 +178,31 @@ Render.prototype.updateConfig = function (value) {
 
   // setting css media rules
   var cssMediaRules = joi.object().keys({
-    link  : joi.string().required().not(null),
-    media : joi.string().required().not(null),
-    defer : joi.string().optional().allow('defer').not(null),
-    async : joi.string().optional().allow('async').not(null),
+    link        : joi.string().required().not(null),
+    media       : joi.string().required().not(null),
+    defer       : joi.string().optional().allow('defer').not(null),
+    async       : joi.string().optional().allow('async').not(null),
+    fingerprint : joi.object().optional().keys({
+      enable      : joi.boolean().required().default(false),
+      key         : joi.string().optional().default(this.uuid),
+      dateFormat  : joi.string().optional().default('DD/MM/YYYY'),
+      qs          : joi.string().optional().empty().default('v'),
+      limit       : joi.number().optional().min(1)
+    })
   });
 
   // setting js media rules
   var jsMediaRules = joi.object().keys({
-    link  : joi.string().required().not(null),
-    defer : joi.string().optional().allow('defer').not(null),
-    async : joi.string().optional().allow('async').not(null)
+    link        : joi.string().required().not(null),
+    defer       : joi.string().optional().allow('defer').not(null),
+    async       : joi.string().optional().allow('async').not(null),
+    fingerprint : joi.object().optional().keys({
+      enable      : joi.boolean().required().default(false),
+      key         : joi.string().optional().default(this.uuid),
+      dateFormat  : joi.string().optional().default('DD/MM/YYYY'),
+      qs          : joi.string().optional().empty().default('v'),
+      limit       : joi.number().optional().min(1)
+    })
   });
 
   // setting up media type rules
@@ -221,7 +278,7 @@ Render.prototype.updateConfig = function (value) {
                                 'Error is [', error.message, '] on [',
                                 error.path, ']'
                               ].join(' '));
-        }, this);
+        }.bind(this));
       }
     }
   } else {
@@ -315,7 +372,7 @@ Render.prototype.build = function (type) {
         this.buildSimpleKeyValue(rule.reference, rule.destination,
                                  rule.keyLabel, rule.valueLabel);
       }
-    }, this);
+    }.bind(this));
 
     // rename key for template
     obj = utils.obj.renameKey(obj, 'css', [ 'css', _.capitalize(type) ].join(''));

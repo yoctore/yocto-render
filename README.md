@@ -54,7 +54,7 @@ You must define a config object like this to let's yocto-render build your base 
         header : {
             // CSS HEADER
             css : [ 
-              { link : 'header.css', media : 'media,print' },
+              { link : 'header.css', media : 'media,print', fingerprint : { dateFormat : 'YY/MM/DD', enable : true, qs : 'g', limit : 15, key : "1234" } },
               { link : 'header2.css', media : 'print' }
               // AND MORE AND MORE
             ],
@@ -165,6 +165,43 @@ app.get('/only-data-with-cache-with-invalid-data-on-no-cache-params', function(r
 // listen and run app
 app.listen(3000);
 ```
+
+## Fingerprint on assets
+
+A fingerprint can be added on assets url. Configuration will be for example :
+
+```javascript
+
+{
+  assets :
+  { 
+    // DEFINE ASSETS FOR HEADER
+    header : {
+        // CSS HEADER
+        css : [ 
+          { link : 'header.css', media : 'media,print', fingerprint : { dateFormat : 'YY/MM/DD', enable : true, qs : 'g', limit : 15, key : "1234" } },
+          { link : 'header2.css', media : 'print' }
+          // AND MORE AND MORE
+        ]
+    }
+  }
+}
+```
+
+Fingerprint definition : 
+
+- dateFormat : 'YYYY/MM/DD' : Use to define refresh delay of fingerprint :
+  * YYYY/MM/DD : Refresh each day
+  * YYYY/MM : Refresh each month
+  *  YYYY : Refresh each year
+  * YYYY/MM/DD hh : Refresh each hour
+  * YYYY/MM/DD hh:mm : Refresh each minutes
+  * YYYY/MM/DD hh:mm:ss : Refresh each seconds
+
+- enable : true : Must be true, if false fingerprint was omit
+- qs : Define wich query string to use before set the fingerprint
+- limit : Define lenght of fingerprint value
+- key : Encrypt key to use to build fingerprint
 
 ## Logging in tool
 
