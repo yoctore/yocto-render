@@ -27,6 +27,7 @@ render.updateConfig({
         header : {
           css : [ 
             {
+              host : 'http://localhost:3000',
               link : 'path=header.css?o=toto', media : 'media,print',
               fingerprint : { dateFormat : 'YY/MM/DD', enable : true, qs : 'g', limit : 15, key : "1234" },
               base64 : { enable : true, qs : 'r' }
@@ -46,7 +47,7 @@ render.updateConfig({
             { link : 'footer2.css', media : 'screen' }
           ],
           js : [
-             { link : 'footer.js'  }, 
+             { link : 'footer.js'  },
              { link : 'footer2.js', defer : 'defer' },
              { link : 'footer3.js', async : 'async' }
           ]

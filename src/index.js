@@ -145,10 +145,25 @@ Render.prototype.buildAssetKeyValue = function (reference, destination,
             )
           ].join('');
         }
+
+        // force remove of ? chars to the next process
+        if (_.startsWith(st.link, '?')) {
+          // replace
+          st.link = st.link.substr(1, st.link.length);
+        }
+
+        // append host on the begining of link
+        st.link = [ st.host, st.link ].join([
+          !_.startsWith(st.link, '/') && !_.startsWith(st.link, 'https') &&
+          !_.startsWith(st.link, 'http') ? '/' : '',
+          !_.isEmpty(st.host) && !_.isEmpty(st.link) &&
+          !_.startsWith(st.link, '?') && !_.endsWith(st.link, '?') ? '?' : ''
+        ].join(''));
+
         // remove non needed key
         delete st.fingerprint;
-        // remove non needed key
         delete st.base64;
+        delete st.host;
         // push if all is okay
         destination.push(st);
       }
@@ -202,6 +217,9 @@ Render.prototype.updateConfig = function (value) {
 
   // setting css media rules
   var cssMediaRules = joi.object().keys({
+    host        : joi.string().uri({
+      scheme : [ 'http', 'https' ]
+    }).optional().empty().default(''),
     link        : joi.string().required().not(null),
     media       : joi.string().required().not(null),
     defer       : joi.string().optional().allow('defer').not(null),
@@ -210,17 +228,20 @@ Render.prototype.updateConfig = function (value) {
       enable      : joi.boolean().required().default(false),
       key         : joi.string().optional().default(this.uuid),
       dateFormat  : joi.string().optional().default('DD/MM/YYYY'),
-      qs          : joi.string().optional().empty().default('v'),
+      qs          : joi.string().optional().empty().default('f'),
       limit       : joi.number().optional().min(1)
     }),
     base64      : joi.object().optional().keys({
       enable      : joi.boolean().required().default(false),
-      qs          : joi.string().optional().empty().default('r')
+      qs          : joi.string().optional().empty().default('b')
     })
   });
 
   // setting js media rules
   var jsMediaRules = joi.object().keys({
+    host        : joi.string().uri({
+      scheme : [ 'http', 'https' ]
+    }).optional().empty().default(''),
     link        : joi.string().required().not(null),
     defer       : joi.string().optional().allow('defer').not(null),
     async       : joi.string().optional().allow('async').not(null),
@@ -228,12 +249,12 @@ Render.prototype.updateConfig = function (value) {
       enable      : joi.boolean().required().default(false),
       key         : joi.string().optional().default(this.uuid),
       dateFormat  : joi.string().optional().default('DD/MM/YYYY'),
-      qs          : joi.string().optional().empty().default('v'),
+      qs          : joi.string().optional().empty().default('f'),
       limit       : joi.number().optional().min(1)
     }),
     base64      : joi.object().optional().keys({
       enable      : joi.boolean().required().default(false),
-      qs          : joi.string().optional().empty().default('r')
+      qs          : joi.string().optional().empty().default('b')
     })
   });
 
