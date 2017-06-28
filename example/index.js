@@ -26,7 +26,12 @@ render.updateConfig({
       assets : { 
         header : {
           css : [ 
-            { link : 'header.css', media : 'media,print', fingerprint : { dateFormat : 'YY/MM/DD', enable : true, qs : 'g', limit : 15, key : "1234" } },
+            {
+              link : 'path=header.css?o=toto', media : 'media,print',
+              fingerprint : { dateFormat : 'YY/MM/DD', enable : true, qs : 'g', limit : 15, key : "1234" },
+              base64 : { enable : true, qs : 'r' }
+            },
+            { link : 'header3.css', media : 'media,print', fingerprint : { dateFormat : 'YY/MM/DD', enable : true, qs : 'g', limit : 15, key : "1234" } },
             { link : 'header2.css', media : 'print' }
           ],
           js : [
@@ -60,6 +65,8 @@ render.debug = true;
  */
 app.set('view engine', 'jade');
 app.set('views', './example/templates');
+app.use(express.static('./example/public'));
+
 app.locals.pretty = true;
 /**
  * Assign render to use render from app

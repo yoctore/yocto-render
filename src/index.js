@@ -7,6 +7,7 @@ var joi       = require('joi');
 var utils     = require('yocto-utils');
 var cryptoJs  = require('crypto-js');
 var moment    = require('moment');
+var base64    = require('js-base64').Base64;
 
 /**
  * A render manager utility tool.
@@ -113,10 +114,31 @@ Render.prototype.buildAssetKeyValue = function (reference, destination,
       if (check && _.isArray(destination) && !_.isUndefined(destination) &&
           !_.isNull(destination)) {
 
+        // build qs separtor properly, so we need to check if url already include the ? separator
+        var qsSeparator = _.includes(st.link, '?') ? '&' : '?';
+
+        // need to build a fingerprint here ?
+        if (_.has(st, 'base64.enable') && st.base64.enable) {
+
+          // We need to check is an already query string exists or not in current url
+          if (_.includes(st.link, [ st.base64.qs, '=' ].join(''))) {
+            // log a warning because a query params with the same name already exists
+            this.logger.warning([ '[ Render.buildAssetKeyValue ] -',
+              'Cannot encode ressource [', st.link, '] to base 64 because the query string [',
+                st.base64.qs, '] already exists. Update your configuration and setup the base64',
+                'query string to another value'
+            ].join(' '));
+          } else {
+            // If we are here we need to build content
+            st.link = [ st.base64.qs, '=', base64.encode(st.link) ].join('');
+          }
+        }
+
         // need to build a fingerprint here ?
         if (_.has(st, 'fingerprint.enable') && st.fingerprint.enable) {
+
           // build properly link with fingerprint value
-          st.link = [ st.link, '?', st.fingerprint.qs, '=',
+          st.link = [ st.link, qsSeparator, st.fingerprint.qs, '=',
             this.buildFingerprint(st.fingerprint.key,
               st.fingerprint.dateFormat,
               st.fingerprint.limit
@@ -125,6 +147,8 @@ Render.prototype.buildAssetKeyValue = function (reference, destination,
         }
         // remove non needed key
         delete st.fingerprint;
+        // remove non needed key
+        delete st.base64;
         // push if all is okay
         destination.push(st);
       }
@@ -188,6 +212,10 @@ Render.prototype.updateConfig = function (value) {
       dateFormat  : joi.string().optional().default('DD/MM/YYYY'),
       qs          : joi.string().optional().empty().default('v'),
       limit       : joi.number().optional().min(1)
+    }),
+    base64      : joi.object().optional().keys({
+      enable      : joi.boolean().required().default(false),
+      qs          : joi.string().optional().empty().default('r')
     })
   });
 
@@ -202,6 +230,10 @@ Render.prototype.updateConfig = function (value) {
       dateFormat  : joi.string().optional().default('DD/MM/YYYY'),
       qs          : joi.string().optional().empty().default('v'),
       limit       : joi.number().optional().min(1)
+    }),
+    base64      : joi.object().optional().keys({
+      enable      : joi.boolean().required().default(false),
+      qs          : joi.string().optional().empty().default('r')
     })
   });
 
