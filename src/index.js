@@ -217,7 +217,7 @@ Render.prototype.updateConfig = function (value) {
   var cssMediaRules = joi.object().keys({
     host        : joi.string().uri({
       scheme : [ 'http', 'https' ]
-    }).optional().empty().default(''),
+    }).optional().empty(),
     link        : joi.string().required().not(null),
     media       : joi.string().required().not(null),
     defer       : joi.string().optional().allow('defer').not(null),
@@ -239,7 +239,7 @@ Render.prototype.updateConfig = function (value) {
   var jsMediaRules = joi.object().keys({
     host        : joi.string().uri({
       scheme : [ 'http', 'https' ]
-    }).optional().empty().default(''),
+    }).optional().empty(),
     link        : joi.string().required().not(null),
     defer       : joi.string().optional().allow('defer').not(null),
     async       : joi.string().optional().allow('async').not(null),

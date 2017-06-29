@@ -1,7 +1,7 @@
 {
   "name": "yocto-render",
   "description": "A renderer utility tool for yocto core stack",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "scripts": {
     "test": "grunt test"
   },
