@@ -114,9 +114,6 @@ Render.prototype.buildAssetKeyValue = function (reference, destination,
       if (check && _.isArray(destination) && !_.isUndefined(destination) &&
           !_.isNull(destination)) {
 
-        // build qs separtor properly, so we need to check if url already include the ? separator
-        var qsSeparator = _.includes(st.link, '?') ? '&' : '?';
-
         // need to build a fingerprint here ?
         if (_.has(st, 'base64.enable') && st.base64.enable) {
 
@@ -134,18 +131,6 @@ Render.prototype.buildAssetKeyValue = function (reference, destination,
           }
         }
 
-        // need to build a fingerprint here ?
-        if (_.has(st, 'fingerprint.enable') && st.fingerprint.enable) {
-
-          // build properly link with fingerprint value
-          st.link = [ st.link, qsSeparator, st.fingerprint.qs, '=',
-            this.buildFingerprint(st.fingerprint.key,
-              st.fingerprint.dateFormat,
-              st.fingerprint.limit
-            )
-          ].join('');
-        }
-
         // force remove of ? chars to the next process
         if (_.startsWith(st.link, '?')) {
           // replace
@@ -159,6 +144,19 @@ Render.prototype.buildAssetKeyValue = function (reference, destination,
           !_.isEmpty(st.host) && !_.isEmpty(st.link) &&
           !_.startsWith(st.link, '?') && !_.endsWith(st.link, '?') ? '?' : ''
         ].join(''));
+
+        // need to build a fingerprint here ?
+        if (_.has(st, 'fingerprint.enable') && st.fingerprint.enable) {
+          // build qs separtor properly, so we need to check if url already include the ? separator
+          var qsSeparator = _.includes(st.link, '?') ? '&' : '?';
+          // build properly link with fingerprint value
+          st.link = [ st.link, qsSeparator, st.fingerprint.qs, '=',
+            this.buildFingerprint(st.fingerprint.key,
+              st.fingerprint.dateFormat,
+              st.fingerprint.limit
+            )
+          ].join('');
+        }
 
         // remove non needed key
         delete st.fingerprint;

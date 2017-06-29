@@ -27,17 +27,30 @@ render.updateConfig({
         header : {
           css : [ 
             {
-              host : 'http://localhost:3000',
-              link : 'path=header.css?o=toto', media : 'media,print',
-              fingerprint : { dateFormat : 'YY/MM/DD', enable : true, qs : 'g', limit : 15, key : "1234" },
-              base64 : { enable : true, qs : 'r' }
+              "host"        : "https://test.test.test.io",
+              "link"        : "path=assets/css/aaa-bbb.cccc.css",
+              "media"       : "print",
+              "fingerprint" : {
+                "enable"      : true,
+                "key"         : "6a756d626f6472697665393735",
+                "limit"       : "24",
+                "qs"          : "v"
+              },
+              "base64"      : {
+                "enable"      : true,
+                "qs"          : "r"
+              }
             },
-            { link : 'header3.css', media : 'media,print', fingerprint : { dateFormat : 'YY/MM/DD', enable : true, qs : 'g', limit : 15, key : "1234" } },
-            { link : 'header2.css', media : 'print' }
+            { link : 'header3.css?toto=3', media : 'media,print', fingerprint : { dateFormat : 'YY/MM/DD', enable : true, qs : 'g', limit : 15, key : "1234" } },
+            { link : 'header2.css', media : 'print', fingerprint : { dateFormat : 'YY/MM/DD', enable : true, qs : 'g', limit : 15, key : "1234" } }
           ],
           js : [
              { link : 'header.js'  }, 
-             { link : 'header2.js', defer : 'defer' },
+             { link : 'header2.js', defer : 'defer',
+                "base64"      : {
+                "enable"      : true,
+                "qs"          : "r"
+              } },
              { link : 'header3.js', async : 'async' }
           ]
         }, 
