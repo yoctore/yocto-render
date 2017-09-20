@@ -386,7 +386,7 @@ Render.prototype.build = function (type) {
       // extend obj
       _.extend(obj, { metas         : [],
                       httpEquiv     : [],
-                      mobileIcons   : this.config.property.mobileIcones || [],
+                      mobileIcons   : this.config.property.mobileIcons || [],
                       facebook      : socialObj.facebook || [],
                       twitter       : socialObj.twitter || [],
                       google        : socialObj.google || []
