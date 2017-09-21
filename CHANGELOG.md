@@ -1,3 +1,7 @@
+## 1.2.4 (2017-09-20)
+
+- Fix bug for mobileIcons configuration
+
 ## 1.1.0 (2016-03-31)
 
 - Update lodash from version 3 to lodash 4
